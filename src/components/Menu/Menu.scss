@@ -1,0 +1,25 @@
+.div-menu{
+    height: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+}
+.div-home{
+    width: 33%;
+    height: 50%;
+    border: 1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+a{
+    width: 15vw;
+    font-size: 30px;
+    text-decoration: none;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: floralwhite;
+    background: black;
+    text-align: center;
+
+}
