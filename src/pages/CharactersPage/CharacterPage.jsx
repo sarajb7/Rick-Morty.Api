@@ -6,29 +6,32 @@ import Menu from "../../components/Menu/Menu";
 import "./CharacterPage.scss"
 import Search from "../../components/Search/Search";
 
+let globalFilterName;
+
+
 export default function CharacterPage(){
     const[characters, setCharacters] = useState([]);
-    const[charactersFilter, setCharactersFilter] = useState([]);
+    const[page, setPage] = useState(1)
 
-    const getCharacters = async(newPage) =>{
-        const {data: {results}} = await axios("https://rickandmortyapi.com/api/character/?page=" + newPage)
+    const getCharacters = async(newPage, filterName) =>{
+        try {
+            setPage(newPage);
+            globalFilterName = filterName ? filterName: globalFilterName
+            const {data: {results}} = await axios("https://rickandmortyapi.com/api/character/?page=" + newPage + (globalFilterName ? "&name=" + filterName : "") )
         setCharacters(results)
-        setCharactersFilter(results)
-    }
+        
+        } catch (error) {
+            setCharacters([])
+        }
+    };      
     useEffect(() =>{
-    getCharacters(1);
-    }, [])
-
-    const handleSearch = (filterText) => {
-        const filteredCharacters = characters.filter((character) => character.name.toLowerCase().includes(filterText.toLowerCase()));
-        setCharactersFilter(filteredCharacters)
-    }
-
+     getCharacters(1);
+    }, []);
 
 return <div className="container text-center p-characterPage">
     <Menu/>
-    <Search onSearch={handleSearch}/>
-    <Gallery arrayCharacter ={charactersFilter}/>
-    <Pagination onChangePage={getCharacters}/>
+    <Search onSearch={getCharacters}/>
+    <Gallery arrayCharacter ={characters}/>
+    <Pagination page ={page} onChangePage={getCharacters}/>
 </div>
 }
